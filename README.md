@@ -49,4 +49,4 @@ The following endpoints are exposed for the assessment's automated tests:
    - `npm run dev`
 
 ---
-*Built for the Epifi Engineering Team.*
+*Built for the Epifi Engineering Team.:)*
