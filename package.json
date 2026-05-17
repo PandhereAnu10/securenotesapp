@@ -4,9 +4,9 @@
   "description": "Multi-user notes REST API with JWT auth and note sharing",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
-    "start": "node dist/index.js",
-    "dev": "tsx watch src/index.ts",
+    "build": "npm install --include=dev && npx prisma generate && tsc",
+  "start": "node dist/index.js",
+  "dev": "ts-node-dev --respawn src/index.ts",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
