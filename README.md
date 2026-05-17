@@ -1,65 +1,52 @@
-# Secure Notes API
+# Secure Notes
 
-Node.js / TypeScript / Express REST backend for a multi-user notes service with JWT auth, Prisma, and PostgreSQL (Supabase).
+A professional, full-stack notes application built for the Epifi technical assessment. This project includes a multi-user backend API and a minimalist dark-mode frontend.
 
-## Setup
+## Live Links
+- **Backend API (Submission URL):** [https://securenotesapp-yrvy.onrender.com](https://securenotesapp-yrvy.onrender.com)
+- **Frontend UI:** [https://secure-notes-frontend-vjxm.onrender.com/](https://secure-notes-frontend-vjxm.onrender.com/)
 
-1. Copy `.env.example` to `.env` and set:
-   - `DATABASE_URL` — Supabase PostgreSQL connection string
-   - `JWT_SECRET` — long random secret
-   - `PORT` (optional, default `3000`)
+## Unique Feature: Note History & Audit Trail
+Standard note apps usually only save the latest version. I implemented a **Version History** system to handle collaborative environments more effectively.
+- **How it works:** Every time a note is updated, the system saves a snapshot of the content and the user who made the change.
+- **Restore Logic:** Users can view the history of any note and restore the content to a previous state with a single click. This ensures no data is ever accidentally lost during collaboration.
 
-2. Install dependencies and sync the database:
+## Tech Stack
+- **Backend:** Node.js, TypeScript, Express.js
+- **Frontend:** Next.js 14, Tailwind CSS, shadcn/ui
+- **Database:** PostgreSQL (Supabase) with Prisma ORM
+- **Authentication:** JWT (JSON Web Tokens) and Bcrypt
+- **Security:** Row-Level Security (RLS) and Zod Schema Validation
+- **Deployment:** Dockerized services on Render
 
-```bash
-npm install
-npx prisma db push
-```
-
-3. Run locally:
-
-```bash
-npm run dev
-```
-
-Production build:
-
-```bash
-npm run build
-npm start
-```
+## Core Functionality
+- **Multi-user Auth:** Secure registration and login.
+- **Note Management:** Full CRUD (Create, Read, Update, Delete) functionality.
+- **Sharing & Roles:** Share notes with other users as either a 'Viewer' or 'Editor'.
+- **Invite System:** Notes shared with you must be accepted before they appear in your list.
+- **Rich Text:** Support for bold, italic, and checklists with auto-syncing.
 
 ## API Endpoints
+The following endpoints are exposed for the assessment's automated tests:
 
-| Method | Path | Auth | Description |
-|--------|------|------|-------------|
-| POST | `/register` | No | Register user (409 if exists) |
-| POST | `/login` | No | Returns `{ access_token }` |
-| GET | `/notes` | Bearer | Notes owned by or shared with user |
-| POST | `/notes` | Bearer | Create note |
-| GET | `/notes/:id` | Bearer | Get note (owner or shared) |
-| PUT | `/notes/:id` | Bearer | Update note (owner only) |
-| DELETE | `/notes/:id` | Bearer | Delete note (owner only) |
-| POST | `/notes/:id/share` | Bearer | Share with another user |
-| PATCH | `/notes/:id/pin` | Bearer | **Custom:** pin/unpin note |
-| GET | `/openapi.json` | No | OpenAPI 3.0 spec |
-| GET | `/about` | No | Author & feature info |
+| Path | Method | Description |
+| :--- | :--- | :--- |
+| `/about` | GET | Developer info and feature description. |
+| `/openapi.json` | GET | Full API documentation (Swagger 3.0). |
+| `/register` | POST | Register a new user. |
+| `/login` | POST | Login and receive an access_token. |
+| `/notes` | GET | List all owned and shared notes. |
+| `/notes/:id/share`| POST | Share a note with another user. |
 
-## Project Structure
+## Local Setup
+1. **Clone the Repo:** `git clone https://github.com/PandhereAnu10/securenotesapp.git`
+2. **Backend:**
+   - `npm install`
+   - Set `.env` (DATABASE_URL, JWT_SECRET).
+   - `npx prisma db push && npm run dev`
+3. **Frontend:**
+   - `cd notes-frontend && npm install`
+   - `npm run dev`
 
-```
-src/
-  controllers/   # Request handlers
-  middleware/    # JWT auth, Zod validation, errors
-  routes/        # Express routers
-  validators/    # Zod schemas
-  openapi/       # OpenAPI spec
-  lib/           # Prisma client
-  utils/         # JWT, note access helpers
-prisma/
-  schema.prisma  # Users, Notes, NoteShares
-```
-
-## Deploy
-
-Deploy to Render, Railway, or Fly.io. Set `DATABASE_URL`, `JWT_SECRET`, and run `prisma db push` (or migrations) on deploy.
+---
+*Built for the Epifi Engineering Team.*
