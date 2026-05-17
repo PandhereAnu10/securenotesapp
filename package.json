@@ -1,0 +1,41 @@
+{
+  "name": "securenotesapp",
+  "version": "1.0.0",
+  "description": "Multi-user notes REST API with JWT auth and note sharing",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/index.ts",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "postinstall": "prisma generate"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^6.8.2",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "google-auth-library": "^10.6.2",
+    "jsonwebtoken": "^9.0.2",
+    "zod": "^3.25.28"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.18",
+    "@types/express": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/node": "^22.15.21",
+    "prisma": "^6.8.2",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  }
+}

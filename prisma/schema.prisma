@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  profile      Profile?
+  notes        Note[]
+  sharedNotes  NoteShare[]       @relation("SharedWithUser")
+  auditEntries NoteAuditLedger[] @relation("AuditActor")
+
+  @@map("users")
+}
+
+model Profile {
+  id        String   @id @default(uuid())
+  userId    String   @unique @map("user_id")
+  email     String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+}
+
+model Note {
+  id        String   @id @default(uuid())
+  title     String
+  content   String   @default("")
+  isPinned  Boolean  @default(false) @map("is_pinned")
+  userId    String   @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  owner        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  shares       NoteShare[]
+  auditEntries NoteAuditLedger[]
+
+  @@index([userId])
+  @@map("notes")
+}
+
+model NoteShare {
+  id               String   @id @default(uuid())
+  noteId           String   @map("note_id")
+  sharedWithUserId String   @map("shared_with_user_id")
+  role             String   @default("VIEWER")
+  status           String   @default("PENDING")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  note           Note @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  sharedWithUser User @relation("SharedWithUser", fields: [sharedWithUserId], references: [id], onDelete: Cascade)
+
+  @@unique([noteId, sharedWithUserId])
+  @@map("note_shares")
+}
+
+model NoteAuditLedger {
+  id        String   @id @default(uuid())
+  noteId    String   @map("note_id")
+  title     String
+  content   String
+  action    String   @default("SNAPSHOT")
+  detail    String?
+  actorId   String   @map("actor_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  note  Note  @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  actor User? @relation("AuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([noteId])
+  @@map("note_audit_ledger")
+}

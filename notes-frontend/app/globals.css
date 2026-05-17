@@ -1,0 +1,228 @@
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --obsidian-bg: #000000;
+  --obsidian-panel: #0a0a0a;
+  --obsidian-border: #1f1f1f;
+  --obsidian-muted: #71717a;
+  --obsidian-accent: #fafafa;
+
+  --background: var(--obsidian-bg);
+  --foreground: #fafafa;
+  --card: var(--obsidian-panel);
+  --card-foreground: #fafafa;
+  --popover: var(--obsidian-panel);
+  --popover-foreground: #fafafa;
+  --primary: #fafafa;
+  --primary-foreground: #09090b;
+  --secondary: #18181b;
+  --secondary-foreground: #fafafa;
+  --muted: #18181b;
+  --muted-foreground: #a1a1aa;
+  --accent: #18181b;
+  --accent-foreground: #fafafa;
+  --destructive: #7f1d1d;
+  --destructive-foreground: #fafafa;
+  --border: var(--obsidian-border);
+  --input: var(--obsidian-border);
+  --ring: #3f3f46;
+  --radius: 0rem;
+  --chart-1: #e4e4e7;
+  --chart-2: #a1a1aa;
+  --chart-3: #71717a;
+  --chart-4: #52525b;
+  --chart-5: #3f3f46;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-obsidian-bg: var(--obsidian-bg);
+  --color-obsidian-panel: var(--obsidian-panel);
+  --color-obsidian-border: var(--obsidian-border);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply h-full;
+  }
+
+  body {
+    @apply min-h-full bg-background font-sans tracking-normal text-foreground antialiased;
+  }
+}
+
+@layer utilities {
+  .text-ui-label {
+    @apply text-sm font-medium tracking-normal text-zinc-400;
+  }
+
+  .text-ui-caption {
+    @apply text-xs font-normal tracking-normal text-zinc-500;
+  }
+
+  .text-ui-meta {
+    @apply text-sm font-medium tracking-normal text-muted-foreground;
+  }
+}
+
+/* Tiptap — readable note body */
+.tiptap-editor,
+.tiptap-editor .ProseMirror {
+  outline: none;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  color: #e4e4e7;
+}
+
+.tiptap-editor .ProseMirror p,
+.tiptap-editor .ProseMirror li {
+  color: #e4e4e7;
+}
+
+.tiptap-editor .ProseMirror p.is-editor-empty:first-child::before {
+  color: rgb(113 113 122 / 0.45);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.tiptap-editor .ProseMirror strong {
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.tiptap-editor .ProseMirror em {
+  font-style: italic;
+}
+
+.tiptap-editor .ProseMirror u {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.tiptap-editor .ProseMirror s {
+  color: rgb(161 161 170);
+}
+
+.tiptap-editor .ProseMirror ul {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin: 0.75rem 0;
+}
+
+.tiptap-editor .ProseMirror li {
+  margin: 0.25rem 0;
+}
+
+.tiptap-editor .ProseMirror img.note-embedded-image,
+.tiptap-editor .ProseMirror img.note-drawing {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1rem 0;
+  border: 1px solid var(--obsidian-border);
+  cursor: pointer;
+}
+
+.tiptap-editor .ProseMirror img.ProseMirror-selectednode,
+.tiptap-editor .ProseMirror .note-attachment-block.ProseMirror-selectednode {
+  outline: 2px solid rgb(245 158 11 / 0.7);
+  outline-offset: 2px;
+}
+
+.tiptap-editor .ProseMirror .note-attachment-block {
+  user-select: none;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: normal;
+}
+
+.tiptap-editor .ProseMirror .note-attachment-block,
+.tiptap-editor .ProseMirror .note-attachment-block * {
+  pointer-events: auto;
+}
+
+.tiptap-editor .ProseMirror .note-attachment-payload {
+  display: none !important;
+  overflow: hidden;
+  width: 0;
+  height: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+/* Notes list — scroll within middle column */
+.notes-list-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #3f3f46 transparent;
+}
+
+.notes-list-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.notes-list-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.notes-list-scroll::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+  border-radius: 0;
+}
+
+.notes-list-scroll::-webkit-scrollbar-thumb:hover {
+  background: #52525b;
+}
