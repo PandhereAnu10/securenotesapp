@@ -13,6 +13,7 @@ const port = Number(process.env.PORT) || 3000;
 const allowedOrigins = [
   "http://localhost:3001",
   "http://127.0.0.1:3001",
+  process.env.FRONTEND_URL,
 ];
 
 app.use(
